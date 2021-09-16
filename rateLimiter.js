@@ -9,7 +9,7 @@ const redisClient = redis.createClient({
   password: "ff342ff9e2e841e78b4398203fdd0a79",
   tls: {},
 });
-// redisClient.flushall();
+redisClient.flushall();
 //-----------Cache----------
 
 module.exports.redisCache = (req, res, next) => {
@@ -51,7 +51,7 @@ module.exports.customRedisRateLimiter = (req, res, next) => {
         };
         newRecord.push(requestLog);
         redisClient.set(req.ip, JSON.stringify(newRecord));
-        next();
+        return next();
       }
       // if record is found, parse it's value and calculate number of requests users has made within the last window
       let data = JSON.parse(record);
