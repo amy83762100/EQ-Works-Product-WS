@@ -3,10 +3,7 @@
 .poi {
   width: 90%;
   height: 80vh;
-  margin: 0 auto 5rem auto;
-  padding: 5rem;
-  border-radius: 1rem;
-  box-shadow: 0 3px 6px $color-grey;
+  margin: 0 auto 3rem auto;
   display: flex;
   flex-direction: column;
   form {
@@ -39,5 +36,19 @@
         outline: none;
       }
     }
+  }
+}
+.mode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include respond(tab-port) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  h2 {
+    text-transform: capitalize;
+    font-weight: 400;
+    color: $color-secondary;
   }
 }

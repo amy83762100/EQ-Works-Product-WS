@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-around;
   @include respond(tab-port) {
-    padding: 5rem 0;
+    padding: 0 0 3rem 0;
     flex-direction: column;
     height: fit-content;
   }

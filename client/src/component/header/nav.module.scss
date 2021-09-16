@@ -32,6 +32,9 @@
     color: $color-primary;
     li {
       margin-right: 3.5rem;
+      @include respond(tab-port) {
+        margin: 0 0 0 2rem;
+      }
     }
 
     &__link {

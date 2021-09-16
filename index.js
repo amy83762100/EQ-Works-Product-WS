@@ -26,7 +26,7 @@ const queryHandler = (req, res, next) => {
   pool
     .query(req.sqlQuery)
     .then((r) => {
-      // console.log(r.rows);
+      console.log(Object.keys(r.rows).length);
       redisClient.set(
         req.url,
         JSON.stringify(r.rows),
@@ -110,17 +110,49 @@ app.get(
   queryHandler
 );
 
+// app.get(
+//   "/api/poi",
+//   (req, res, next) => {
+//     req.sqlQuery = `
+//     SELECT *
+//     FROM public.poi;
+//   `;
+//     return next();
+//   },
+//   queryHandler
+// );
+
+//-----------------------
 app.get(
-  "/api/poi",
+  "/api/poi/events",
   (req, res, next) => {
     req.sqlQuery = `
     SELECT *
-    FROM public.poi;
+    FROM public.hourly_events
+    INNER JOIN public.poi ON public.poi.poi_id=public.hourly_events.poi_id
+    ORDER BY date, hour
+    LIMIT 168;
   `;
     return next();
   },
   queryHandler
 );
+
+app.get(
+  "/api/poi/stats",
+  (req, res, next) => {
+    req.sqlQuery = `
+    SELECT *
+    FROM public.hourly_stats
+    INNER JOIN public.poi ON public.poi.poi_id=public.hourly_stats.poi_id
+    ORDER BY date, hour
+    LIMIT 168;
+  `;
+    return next();
+  },
+  queryHandler
+);
+//-----------------------
 
 // All other GET requests not handled before will return our React app
 app.get("*", (req, res) => {
