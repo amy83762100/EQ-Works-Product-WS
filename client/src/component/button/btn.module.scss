@@ -1,0 +1,107 @@
+@import "../../sass/variable.module.scss";
+@import "../../sass/mixins.module.scss";
+.btn {
+  cursor: pointer;
+  padding: 1.5rem 3.5rem;
+  border-radius: 5rem;
+  border: none;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: inherit;
+  background-color: $color-white;
+  overflow: hidden;
+  position: relative;
+  &__white {
+    z-index: 10;
+    box-shadow: 0 3px 3px $color-grey;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    & span {
+      position: relative;
+      pointer-events: none;
+    }
+    &:hover {
+      color: #ffffff;
+      transform: translateY(-3px);
+      background-color: rgba($color-primary, 0.8);
+      box-shadow: 0 5px 6px $color-grey;
+    }
+    &::before {
+      --size: 0;
+      content: "";
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--size);
+      height: var(--size);
+      background: radial-gradient(
+        circle closest-side,
+        $color-quaternary,
+        transparent
+      );
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      // transition: width 0.2s ease, height 0.2s ease;
+    }
+    &:hover::before {
+      --size: 200px;
+    }
+  }
+
+  &__color {
+    color: $color-white;
+    background: transparent
+      linear-gradient(
+        90deg,
+        $color-primary 0%,
+        $color-secondary 34%,
+        $color-tertiary 65%,
+        $color-quaternary 100%
+      )
+      0% 0% no-repeat padding-box;
+
+    transition: all 500ms ease-in-out;
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+    }
+    &:hover,
+    &:focus {
+      transform: scale(102%);
+    }
+    &::after {
+      left: 0%;
+      content: attr(content);
+      width: 100%;
+    }
+    &::before {
+      box-shadow: 9em 1em 2em 3em rgba($color-primary, 0.9),
+        8em 1em 6em 3em rgba($color-secondary, 0.8),
+        3em -2em 3em 3em rgba($color-tertiary, 0.5),
+        4em 2em 2em 3em rgba($color-quaternary, 0.6),
+        0 3em 2em 3em rgba($color-primary, 0.9),
+        2em 1em 2em 3em rgba($color-secondary, 0.9);
+      animation: mix 8s linear infinite;
+    }
+  }
+}
+@keyframes mix {
+  30% {
+    box-shadow: 0 -1em 2em 3em rgba($color-tertiary, 0.8),
+      9em -1em 2em 3em rgba($color-quaternary, 0.8),
+      4em 2em 3em 2em rgba($color-primary, 0.8),
+      4em -2em 2em 2em rgba($color-secondary, 0.8),
+      0 3em 2em 2em rgba($color-tertiary, 0.9),
+      2em 1em 2em 2em rgba($color-quaternary, 0.9);
+  }
+
+  60% {
+    box-shadow: 2em 1em 2em 3em rgba($color-primary, 0.9),
+      3em 1em 2em 3em rgba($color-secondary, 0.6),
+      3em -2em 3em 3em rgba($color-tertiary, 0.5),
+      9em 2em 2em 3em rgba($color-quaternary, 0.6),
+      0 -3em 2em 3em rgba($color-primary, 0.9),
+      2em 1em 2em 3em rgba($color-secondary, 0.9);
+  }
+}

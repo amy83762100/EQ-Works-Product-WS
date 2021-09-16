@@ -1,0 +1,49 @@
+@import "../../sass/variable.module.scss";
+@import "../../sass/mixins.module.scss";
+.nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5rem;
+  font-size: $default-font-size-h2;
+  letter-spacing: 1px;
+
+  color: $color-primary;
+  &__logo {
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    @include respond(tab-port) {
+      span {
+        display: none;
+      }
+    }
+
+    img {
+      height: 6rem;
+      margin-right: 1rem;
+    }
+  }
+  .menu {
+    display: flex;
+    justify-content: space-around;
+    color: $color-primary;
+    li {
+      margin-right: 3.5rem;
+    }
+
+    &__link {
+      color: inherit;
+      padding: 1rem 0;
+      transition: all 0.3s;
+      border-bottom: 2px solid transparent;
+    }
+    &__link:hover,
+    &__link:active {
+      color: $color-secondary;
+      border-bottom: 2px solid currentColor;
+    }
+  }
+}

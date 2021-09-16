@@ -1,0 +1,31 @@
+@import "../../sass/variable.module.scss";
+@import "../../sass/mixins.module.scss";
+.cards {
+  width: 80%;
+  margin: 0 auto 5rem auto;
+  padding: 5rem;
+  border-radius: 1rem;
+  box-shadow: 0 3px 6px $color-grey;
+  color: $color-black;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  font-size: $default-font-size-p;
+  color: $color-secondary;
+  position: relative;
+  @include respond(tab-port) {
+    width: 95%;
+  }
+  @include respond(phone) {
+    padding: 5rem 2.5rem;
+  }
+  .btn {
+    position: absolute;
+    top: 5rem;
+    right: 5rem;
+    @include respond(phone) {
+      top: 5rem;
+      right: -1.5rem;
+      transform: scale(0.7);
+    }
+  }
+}

@@ -1,0 +1,45 @@
+// COLORS
+$color-primary: #005582;
+$color-secondary: #0086ad;
+$color-tertiary: #00c2c7;
+$color-quaternary: #97ebdb;
+$color-quinary: #daf8e3;
+$color-red: #ff7878;
+
+$chart-colors: (
+  primary: $color-primary,
+  secondary: $color-secondary,
+  tertiary: $color-tertiary,
+  quaternary: $color-quaternary,
+  quinary: $color-quinary,
+  redLight: $color-red,
+);
+
+$color-grey: #0000005c;
+$color-grey-light: #00000009;
+
+$color-white: #fff;
+$color-black: #191919;
+$color-black-dark: #000;
+
+// FONT
+$default-font-size-h1: 4.6rem;
+$default-font-size-h2: 3.18rem;
+$default-font-size-p: 2.18rem;
+$default-font-size-small: 1.5rem;
+
+// MARGIN
+$margin-big: 10rem;
+$margin-mid: 6rem;
+$margin-small: 3rem;
+
+:export {
+  // primary: #005582;
+  // secondary: #0086ad;
+  // tertiary: #00c2c7;
+  // quaternary: #97ebdb;
+  // payment: #daf8e3;
+  @each $key, $value in $chart-colors {
+    #{$key}: #{$value};
+  }
+}

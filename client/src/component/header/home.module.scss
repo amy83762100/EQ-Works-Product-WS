@@ -1,0 +1,34 @@
+@import "../../sass/variable.module.scss";
+@import "../../sass/mixins.module.scss";
+.home {
+  padding: 0 15rem;
+  width: 100%;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  @include respond(tab-port) {
+    padding: 5rem 0;
+    flex-direction: column;
+    height: fit-content;
+  }
+  & > * {
+    flex: 1;
+    margin: 3rem;
+    width: 60%;
+    & > * {
+      width: 100%;
+      font-size: $default-font-size-h2;
+      height: 15rem;
+    }
+    &:nth-child(1) {
+      color: $color-primary;
+    }
+    &:nth-child(2) {
+      color: $color-secondary;
+    }
+    &:nth-child(3) {
+      color: $color-tertiary;
+    }
+  }
+}

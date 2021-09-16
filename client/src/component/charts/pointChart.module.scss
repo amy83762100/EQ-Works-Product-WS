@@ -1,0 +1,47 @@
+@import "../../sass/variable.module.scss";
+@import "../../sass/mixins.module.scss";
+.container {
+  width: 100%;
+  min-width: 200px;
+
+  .chart {
+    width: 100%;
+    display: block;
+    font-size: $default-font-size-small;
+    fill: $color-grey;
+    color: $color-grey;
+    height: 40rem;
+  }
+
+  .note {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: $default-font-size-small;
+    color: $color-grey;
+  }
+  .legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: rgba(255, 255, 255, 0.787);
+    font-size: $default-font-size-small;
+    font-weight: 900;
+    color: $color-grey;
+    & > * {
+      display: flex;
+      align-items: center;
+    }
+    &__below {
+      background-color: $color-primary;
+      height: 1rem;
+      width: 3rem;
+      margin-right: 1rem;
+    }
+    &__above {
+      background-color: $color-tertiary;
+      height: 1rem;
+      width: 3rem;
+      margin-right: 1rem;
+    }
+  }
+}
