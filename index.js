@@ -10,12 +10,11 @@ dotenv.config({ path: "./config.env" });
 
 //-----------Cache----------
 const redisClient = redis.createClient({
-  host: "us1-legal-trout-34915.upstash.io",
-  port: "34915",
-  password: "ff342ff9e2e841e78b4398203fdd0a79",
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  password: process.env.REDIS_PASSWORD,
   tls: {},
 });
-const DEFAULT_EXPIRATION = 1800;
 
 const app = express();
 // configs come from standard PostgreSQL env vars
@@ -26,12 +25,11 @@ const queryHandler = (req, res, next) => {
   pool
     .query(req.sqlQuery)
     .then((r) => {
-      console.log(Object.keys(r.rows).length);
       redisClient.set(
         req.url,
         JSON.stringify(r.rows),
         "ex",
-        DEFAULT_EXPIRATION
+        process.env.DEFAULT_EXPIRATION
       );
       return res.json(r.rows || []);
     })
