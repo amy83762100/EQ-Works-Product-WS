@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import * as d3 from "d3";
 import Cards from "../cards/cards";
 import BarChart from "../charts/barChart";
+import Table from "../table/table";
 
 function Events({ type }) {
   const [data, setData] = useState(null);
+  const [searchValue, setSearchValue] = useState(null);
   let formatTime = d3.timeFormat(
     `%B %d, %Y${type === "hourly" ? " %H:00" : ""}`
   );
@@ -54,6 +56,13 @@ function Events({ type }) {
         xAxisValue="date"
         yAxisValue="events"
         type={type}
+        passSearchValue={(searchValue) => setSearchValue(searchValue)}
+        searchValue={searchValue}
+      />
+      <Table
+        data={data}
+        passSearchValue={(searchValue) => setSearchValue(searchValue)}
+        searchValue={searchValue}
       />
     </Cards>
   );

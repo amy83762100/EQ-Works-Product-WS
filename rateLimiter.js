@@ -1,4 +1,3 @@
-const moment = require("moment");
 const redis = require("redis");
 const dotenv = require("dotenv");
 
@@ -31,71 +30,26 @@ module.exports.redisCache = (req, res, next) => {
 
 module.exports.customRedisRateLimiter = (req, res, next) => {
   try {
-    // check that redis client exists
-    if (!redisClient) {
-      console.log("Redis client does not exist!");
-      process.exit(1);
-    }
-
-    // fetch records of current user using IP address, returns null when no record is found
-    redisClient.get(req.ip, function (err, record) {
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    redisClient.get(ip, (err, current) => {
       if (err) throw err;
-      const currentRequestTime = moment();
-
-      //  if no record is found , create a new record for user and store to redis
-      if (record == null) {
-        let newRecord = [];
-        let requestLog = {
-          requestTimeStamp: currentRequestTime.unix(),
-          requestCount: 1,
-        };
-        newRecord.push(requestLog);
-        redisClient.set(req.ip, JSON.stringify(newRecord));
-        return next();
-      }
-      // if record is found, parse it's value and calculate number of requests users has made within the last window
-      let data = JSON.parse(record);
-      let windowStartTimestamp = moment()
-        .subtract(process.env.WINDOW_SIZE_IN_HOURS, "hours")
-        .unix();
-      let requestsWithinWindow = data.filter((entry) => {
-        return entry.requestTimeStamp > windowStartTimestamp;
-      });
-      console.log("requestsWithinWindow", requestsWithinWindow);
-      let totalWindowRequestsCount = requestsWithinWindow.reduce(
-        (accumulator, entry) => {
-          return accumulator + entry.requestCount;
-        },
-        0
-      );
-      // if number of requests made is greater than or equal to the desired maximum, return error
-      if (totalWindowRequestsCount >= process.env.MAX_WINDOW_REQUEST_COUNT) {
-        console.log(err);
-        res.status(429).json({
-          status: "fail",
-          message: `You have exceeded the ${process.env.MAX_WINDOW_REQUEST_COUNT} requests in ${process.env.WINDOW_SIZE_IN_HOURS} hrs limit!`,
-        });
-      } else {
-        // if number of requests made is less than allowed maximum, log new entry
-        let lastRequestLog = data[data.length - 1];
-        let potentialCurrentWindowIntervalStartTimeStamp = currentRequestTime
-          .subtract(process.env.WINDOW_LOG_INTERVAL_IN_HOURS, "hours")
-          .unix();
-        //  if interval has not passed since last request log, increment counter
-        if (
-          lastRequestLog.requestTimeStamp >
-          potentialCurrentWindowIntervalStartTimeStamp
-        ) {
-          lastRequestLog.requestCount++;
-          data[data.length - 1] = lastRequestLog;
-        } else {
-          //  if interval has passed, log new entry for current user and timestamp
-          data.push({
-            requestTimeStamp: currentRequestTime.unix(),
-            requestCount: 1,
+      if (current && +current > +process.env.MAX_REQUEST)
+        redisClient.ttl(ip, (err, ttl) => {
+          return res.status(429).json({
+            status: "fail",
+            message: `You have exceeded the ${
+              process.env.MAX_REQUEST
+            } requests. Try again in ${(ttl / 60).toFixed(2)} minutes.`,
           });
-        }
-        redisClient.set(req.ip, JSON.stringify(data));
+        });
+      else {
+        redisClient.incr(
+          ip,
+          (err, requests) =>
+            requests == 1 &&
+            redisClient.expire(ip, process.env.RATE_LIMITER_EXPIRATION)
+        );
+        redisClient.ttl(ip, (err, ttl) => console.log(ttl));
         next();
       }
     });

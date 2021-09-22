@@ -11,7 +11,8 @@ $chart-colors: (
   secondary: $color-secondary,
   tertiary: $color-tertiary,
   quaternary: $color-quaternary,
-  quinary: $color-quinary,
+  quaternaryLight: rgba($color-quaternary, 0.1),
+  quinaryLight: rgba($color-quinary, 0.1),
   redLight: $color-red,
 );
 

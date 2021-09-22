@@ -132,15 +132,13 @@
     align-items: center;
   }
   &__below {
-    background-color: $color-primary;
     height: 1rem;
-    width: 3rem;
+    width: 5.5rem;
     margin-right: 1rem;
   }
   &__above {
-    background-color: $color-secondary;
     height: 1rem;
-    width: 3rem;
+    width: 5.5rem;
     margin-right: 1rem;
   }
 }

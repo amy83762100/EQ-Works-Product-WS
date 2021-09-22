@@ -122,6 +122,30 @@ app.get(
 
 //-----------------------
 app.get(
+  "/api/poi",
+  (req, res, next) => {
+    req.sqlQuery = `
+    SELECT stats.date, 
+    SUM(events.events) AS events, 
+    SUM(stats.impressions) AS impressions, 
+    SUM(stats.clicks) AS clicks, 
+    SUM(stats.revenue) AS revenue, 
+    stats.poi_id,
+    poi.lat, poi.lon, poi.name
+    FROM public.hourly_stats AS stats
+    LEFT JOIN public.hourly_events AS events
+    ON stats.date=events.date AND stats.poi_id=events.poi_id
+    LEFT JOIN public.poi AS poi
+    ON stats.poi_id=poi.poi_id
+    GROUP BY stats.date, stats.poi_id, poi.lat, poi.lon, poi.name
+    ORDER BY stats.date, stats.poi_id
+    LIMIT 168;
+  `;
+    return next();
+  },
+  queryHandler
+);
+app.get(
   "/api/poi/events",
   (req, res, next) => {
     req.sqlQuery = `

@@ -1,0 +1,80 @@
+@import "../../sass/variable.module.scss";
+@import "../../sass/mixins.module.scss";
+.table {
+  margin-top: 5rem;
+  .form {
+    margin: 1rem 0;
+    font-size: $default-font-size-small;
+    font-weight: 700;
+    color: $color-grey;
+    display: flex;
+    align-items: center;
+    @include respond(tab-port) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    & > * {
+      display: flex;
+      align-items: center;
+      @include respond(tab-port) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+    input {
+      cursor: text;
+      font-family: inherit;
+      font-size: inherit;
+      color: $color-primary;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      margin: 0.5rem 1rem;
+      border-bottom: 2px solid transparent;
+      &:focus {
+        outline: none;
+        border-bottom: 2px solid $color-tertiary;
+      }
+    }
+    span {
+      color: $color-tertiary;
+    }
+  }
+  .container {
+    margin: 2rem 0;
+    overflow: auto;
+    max-height: 50vh;
+    table {
+      font-size: $default-font-size-small;
+      width: 100%;
+      text-align: center;
+      border-collapse: collapse;
+      border: 1px solid $color-grey-light;
+      thead th {
+        background-color: $color-white;
+        position: sticky;
+        top: 0;
+      }
+      tfoot td {
+        &:first-child {
+          font-weight: bolder;
+          text-transform: uppercase;
+        }
+        background-color: $color-white;
+        position: sticky;
+        bottom: 0;
+      }
+      td,
+      th {
+        padding: 0.5rem 1.5rem;
+        white-space: nowrap;
+      }
+    }
+  }
+  .note {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: $default-font-size-small;
+    color: $color-grey;
+  }
+}

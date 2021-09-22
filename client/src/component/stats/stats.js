@@ -4,9 +4,11 @@ import Cards from "../cards/cards";
 import BarChart from "../charts/barChart";
 import classes from "./stats.module.scss";
 import PointChart from "../charts/pointChart";
+import Table from "../table/table";
 
 function Stats({ type }) {
   const [data, setData] = useState(null);
+  const [searchValue, setSearchValue] = useState(null);
   const [chartType, setChartType] = useState("impressions");
   let formatTime = d3.timeFormat(
     `%B %d, %Y${type === "hourly" ? " %H:00" : ""}`
@@ -49,6 +51,7 @@ function Stats({ type }) {
   function updateChart(e) {
     setChartType(e.target.value);
   }
+
   return (
     <Cards mode={"stats"} type={type}>
       <h2 className={classes.title}>
@@ -81,8 +84,15 @@ function Stats({ type }) {
           xAxisValue="date"
           yAxisValue={chartType}
           type={type}
+          passSearchValue={(searchValue) => setSearchValue(searchValue)}
+          searchValue={searchValue}
         />
       )}
+      <Table
+        data={data}
+        passSearchValue={(searchValue) => setSearchValue(searchValue)}
+        searchValue={searchValue}
+      />
     </Cards>
   );
 }

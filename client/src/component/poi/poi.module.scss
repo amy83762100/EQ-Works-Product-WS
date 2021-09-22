@@ -8,23 +8,20 @@
   flex-direction: column;
   form {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-between;
     color: $color-primary;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     letter-spacing: 1px;
-    @include respond(tab-port) {
-      flex-direction: column;
-      align-items: flex-start;
-      label {
-        margin-bottom: 1rem;
+    &__options {
+      display: flex;
+      @include respond(tab-port) {
+        flex-direction: column;
       }
     }
-    label {
-      font-size: $default-font-size-h2;
-      font-weight: 700;
-    }
     select {
+      margin: 0 2rem 1rem 0;
       padding: 1rem;
       color: inherit;
       font-family: inherit;
@@ -47,7 +44,7 @@
     align-items: flex-start;
   }
   h2 {
-    text-transform: capitalize;
+    text-transform: uppercase;
     font-weight: 400;
     color: $color-secondary;
   }
