@@ -33,7 +33,7 @@ module.exports.customRedisRateLimiter = (req, res, next) => {
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     redisClient.get(ip, (err, current) => {
       if (err) throw err;
-      if (current && +current > +process.env.MAX_REQUEST)
+      if (current && +current >= +process.env.MAX_REQUEST)
         redisClient.ttl(ip, (err, ttl) => {
           return res.status(429).json({
             status: "fail",
@@ -43,13 +43,13 @@ module.exports.customRedisRateLimiter = (req, res, next) => {
           });
         });
       else {
-        redisClient.incr(
-          ip,
-          (err, requests) =>
-            requests == 1 &&
-            redisClient.expire(ip, process.env.RATE_LIMITER_EXPIRATION)
-        );
-        redisClient.ttl(ip, (err, ttl) => console.log(ttl));
+        redisClient
+          .multi()
+          .set(ip, 0, "NX", "EX", process.env.RATE_LIMITER_EXPIRATION)
+          .incr(ip)
+          .exec((err) => {
+            if (err) throw err;
+          });
         next();
       }
     });

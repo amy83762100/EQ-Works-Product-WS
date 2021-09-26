@@ -2,27 +2,40 @@
 @import "../../sass/mixins.module.scss";
 .table {
   margin-top: 5rem;
+  padding-top: 1rem;
+  border-top: 3px double $color-grey-light;
   .form {
     margin: 1rem 0;
     font-size: $default-font-size-small;
     font-weight: 700;
     color: $color-grey;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    @include respond(tab-port) {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    & > * {
+    &__search {
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+      margin-bottom: 1rem;
       @include respond(tab-port) {
         flex-direction: column;
         align-items: flex-start;
       }
+      & > * {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 40rem;
+      }
+    }
+    label {
+      max-width: 47%;
     }
     input {
       cursor: text;
+      max-width: 11rem;
       font-family: inherit;
       font-size: inherit;
       color: $color-primary;
@@ -38,6 +51,23 @@
     }
     span {
       color: $color-tertiary;
+    }
+    &__btnGtLt {
+      // position: absolute;
+      // bottom: 0;
+      // left: 0;
+      // transform: translate(-1rem, -5px);
+      opacity: 0.8;
+      font-size: $default-font-size-small;
+      font-weight: lighter;
+      text-transform: capitalize;
+      padding: 0.5rem 1rem;
+    }
+    &__submit {
+      opacity: 0.8;
+      font-size: $default-font-size-small;
+      padding: 1rem;
+      margin: 1rem;
     }
   }
   .container {

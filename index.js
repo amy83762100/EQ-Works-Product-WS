@@ -145,35 +145,6 @@ app.get(
   },
   queryHandler
 );
-app.get(
-  "/api/poi/events",
-  (req, res, next) => {
-    req.sqlQuery = `
-    SELECT *
-    FROM public.hourly_events
-    INNER JOIN public.poi ON public.poi.poi_id=public.hourly_events.poi_id
-    ORDER BY date, hour
-    LIMIT 168;
-  `;
-    return next();
-  },
-  queryHandler
-);
-
-app.get(
-  "/api/poi/stats",
-  (req, res, next) => {
-    req.sqlQuery = `
-    SELECT *
-    FROM public.hourly_stats
-    INNER JOIN public.poi ON public.poi.poi_id=public.hourly_stats.poi_id
-    ORDER BY date, hour
-    LIMIT 168;
-  `;
-    return next();
-  },
-  queryHandler
-);
 //-----------------------
 
 // All other GET requests not handled before will return our React app
